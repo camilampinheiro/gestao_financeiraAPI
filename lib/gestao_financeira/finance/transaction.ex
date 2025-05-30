@@ -13,6 +13,7 @@ defmodule GestaoFinanceira.Finance.Transaction do
     field :data, :utc_datetime
 
     belongs_to :user, GestaoFinanceira.Accounts.User
+    belongs_to :tag, GestaoFinanceira.Finance.Tag
 
     timestamps(type: :utc_datetime)
   end
@@ -20,8 +21,8 @@ defmodule GestaoFinanceira.Finance.Transaction do
   @doc false
   def changeset(transaction, attrs) do
     transaction
-    |> cast(attrs, [:descricao, :valor, :tipo, :user_id])
-    |> validate_required([:descricao, :valor, :tipo, :user_id])
+    |> cast(attrs, [:descricao, :valor, :tipo, :data, :tag_id, :user_id]) 
+    |> validate_required([:descricao, :valor, :tipo])
     |> put_change(:data, DateTime.utc_now() |> DateTime.truncate(:second))
   end
 end

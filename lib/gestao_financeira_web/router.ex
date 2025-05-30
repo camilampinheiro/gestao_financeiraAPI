@@ -37,9 +37,10 @@ defmodule GestaoFinanceiraWeb.Router do
     resources "/users", UserController, except: [:new, :edit]
     post "/session", SessionController, :create
     resources "/transactions", TransactionController, except: [:new, :edit]
+    resources "/tags", TagController, except: [:new, :edit]
   end
 
-  # Esse nao precisa do token no header 
+  # Esse nao precisa do token no header
   # scope "/api", GestaoFinanceiraWeb do
   #   pipe_through [:api]
 
