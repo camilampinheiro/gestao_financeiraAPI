@@ -1,0 +1,2 @@
+mix guardian.gen.secret
+criar secret aleatoria
