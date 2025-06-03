@@ -34,20 +34,19 @@ defmodule GestaoFinanceiraWeb.Router do
   scope "/api", GestaoFinanceiraWeb do
     pipe_through [:api, :auth]
 
-    resources "/users", UserController, except: [:new, :edit]
-    post "/session", SessionController, :create
+    # resources "/users", UserController, except: [:new, :edit]
+    # post "/session", SessionController, :create
     resources "/transactions", TransactionController, except: [:new, :edit]
     resources "/tags", TagController, except: [:new, :edit]
   end
 
   # Esse nao precisa do token no header
-  # scope "/api", GestaoFinanceiraWeb do
-  #   pipe_through [:api]
+  scope "/api", GestaoFinanceiraWeb do
+    pipe_through [:api]
 
-  #   resources "/users", UserController, except: [:new, :edit]
-  #   post "/session", SessionController, :create
-  #   resources "/transactions", TransactionController, except: [:new, :edit]
-  # end
+    resources "/users", UserController, except: [:new, :edit]
+    post "/session", SessionController, :create
+  end
 
   # Enable LiveDashboard and Swoosh mailbox preview in development
   if Application.compile_env(:gestao_financeira, :dev_routes) do

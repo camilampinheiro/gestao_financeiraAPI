@@ -62,7 +62,8 @@ defmodule GestaoFinanceira.MixProject do
       {:bcrypt_elixir, "~> 3.0"},
       {:comeonin, "~> 5.3"},
       {:guardian, "~> 2.0"},
-      {:decimal, "~> 2.0"}
+      {:decimal, "~> 2.0"},
+      {:cors_plug, "~> 3.0"}
     ]
   end
 
