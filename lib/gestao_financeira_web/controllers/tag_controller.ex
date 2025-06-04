@@ -2,7 +2,6 @@ defmodule GestaoFinanceiraWeb.TagController do
   use GestaoFinanceiraWeb, :controller
 
   alias GestaoFinanceira.Finance
-  alias GestaoFinanceira.Finance.Tag
 
   action_fallback GestaoFinanceiraWeb.FallbackController
 
