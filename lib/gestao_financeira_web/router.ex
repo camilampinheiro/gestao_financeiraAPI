@@ -34,7 +34,7 @@ defmodule GestaoFinanceiraWeb.Router do
   scope "/api", GestaoFinanceiraWeb do
     pipe_through [:api, :auth]
 
-    # resources "/users", UserController, except: [:new, :edit]
+    # resources "/users", UserController, except: [:new, :edit]2
     # post "/session", SessionController, :create
     get "/users/me", UserController, :me
     resources "/transactions", TransactionController, except: [:new, :edit]
