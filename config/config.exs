@@ -20,7 +20,7 @@ config :gestao_financeira, GestaoFinanceiraWeb.Endpoint,
     layout: false
   ],
   pubsub_server: GestaoFinanceira.PubSub,
-  live_view: [signing_salt: "aPHWLG8S"]
+  live_view: [signing_salt: "YOUR_SECRET_KEY"]
 
 # Configures the mailer
 #
@@ -53,7 +53,7 @@ config :tailwind,
   ]
 
 # Configures Elixir's Logger
-config :logger, :default_formatter,
+config :logger, :console,
   format: "$time $metadata[$level] $message\n",
   metadata: [:request_id]
 
@@ -67,3 +67,10 @@ import_config "#{config_env()}.exs"
 config :gestao_financeira, GestaoFinanceira.Guardian,
   issuer: "gestao_financeira",
   secret_key: "SECRETKEYPARAACESSO"
+
+# Configuração do CORS
+config :cors_plug,
+  origin: ["http://localhost:5173"],
+  max_age: 86400,
+  methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
+  headers: ["Authorization", "Content-Type", "Accept", "Origin", "User-Agent", "DNT", "Cache-Control", "X-Mx-ReqToken", "Keep-Alive", "X-Requested-With", "If-Modified-Since", "X-CSRF-Token"]

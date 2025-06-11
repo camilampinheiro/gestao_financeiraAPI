@@ -5,17 +5,17 @@ defmodule GestaoFinanceiraWeb.SessionController do
   alias GestaoFinanceira.Guardian
 
   def create(conn, %{"email" => email, "password" => password}) do
-    case Accounts.get_user_by_email(email) do
-      nil ->
-        conn |> put_status(:unauthorized) |> json(%{error: "Usuário não encontrado"})
+    case Accounts.authenticate_user(email, password) do
+      {:ok, user} ->
+        {:ok, token, _claims} = Guardian.encode_and_sign(user)
+        conn
+        |> put_status(:ok)
+        |> render(:create, %{token: token, user: user})
 
-      user ->
-        if Bcrypt.verify_pass(password, user.password_hash) do
-          {:ok, token, _claims} = Guardian.encode_and_sign(user)
-          json(conn, %{token: token})
-        else
-          conn |> put_status(:unauthorized) |> json(%{error: "Senha inválida"})
-        end
+      {:error, :unauthorized} ->
+        conn
+        |> put_status(:unauthorized)
+        |> json(%{error: "Email ou senha inválidos"})
     end
   end
 end

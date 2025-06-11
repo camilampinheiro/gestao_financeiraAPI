@@ -15,12 +15,11 @@ defmodule GestaoFinanceiraWeb.UserJSON do
     %{data: data(user)}
   end
 
-  defp data(%User{} = user) do
+  def data(%User{} = user) do
     %{
       id: user.id,
       name: user.name,
       email: user.email,
-      password_hash: user.password_hash,
       inserted_at: user.inserted_at,
       updated_at: user.updated_at
     }

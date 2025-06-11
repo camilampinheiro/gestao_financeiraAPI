@@ -36,6 +36,7 @@ defmodule GestaoFinanceiraWeb.Router do
 
     # resources "/users", UserController, except: [:new, :edit]
     # post "/session", SessionController, :create
+    get "/users/me", UserController, :me
     resources "/transactions", TransactionController, except: [:new, :edit]
     resources "/tags", TagController, except: [:new, :edit]
   end

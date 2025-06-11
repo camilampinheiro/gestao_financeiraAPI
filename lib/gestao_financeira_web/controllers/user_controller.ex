@@ -12,11 +12,6 @@ defmodule GestaoFinanceiraWeb.UserController do
     render(conn, :index, users: users)
   end
 
-  def show(conn, %{"id" => id}) do
-    user = Accounts.get_user!(id)
-    render(conn, :show, user: user)
-  end
-
   def create(conn, %{"user" => user_params}) do
     with {:ok, %User{} = user} <- Accounts.create_user(user_params) do
       conn
@@ -24,6 +19,16 @@ defmodule GestaoFinanceiraWeb.UserController do
       |> put_resp_header("location", ~p"/api/users/#{user}")
       |> render(:show, user: user)
     end
+  end
+
+  def show(conn, %{"id" => id}) do
+    user = Accounts.get_user!(id)
+    render(conn, :show, user: user)
+  end
+
+  def me(conn, _params) do
+    user = Guardian.Plug.current_resource(conn)
+    render(conn, :show, user: user)
   end
 
   def update(conn, %{"id" => id, "user" => user_params}) do
