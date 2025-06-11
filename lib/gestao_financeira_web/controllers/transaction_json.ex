@@ -21,7 +21,11 @@ defmodule GestaoFinanceiraWeb.TransactionJSON do
       descricao: transaction.descricao,
       valor: transaction.valor,
       tipo: transaction.tipo,
-      data: transaction.data
+      data: transaction.data,
+      user_id: transaction.user_id,
+      tag_id: transaction.tag_id,
+      inserted_at: transaction.inserted_at,
+      updated_at: transaction.updated_at
     }
   end
 end

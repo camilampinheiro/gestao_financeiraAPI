@@ -18,7 +18,9 @@ defmodule GestaoFinanceiraWeb.TagJSON do
   defp data(%Tag{} = tag) do
     %{
       id: tag.id,
-      nome: tag.nome
+      nome: tag.nome,
+      inserted_at: tag.inserted_at,
+      updated_at: tag.updated_at
     }
   end
 end

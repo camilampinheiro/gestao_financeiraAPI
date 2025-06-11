@@ -2,6 +2,10 @@ defmodule GestaoFinanceira.Finance.Tag do
   use Ecto.Schema
   import Ecto.Changeset
 
+  @derive {Jason.Encoder,
+  only: [:id, :nome, :inserted_at, :updated_at]
+  }
+
   schema "tags" do
     field :nome, :string
 
