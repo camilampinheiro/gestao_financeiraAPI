@@ -19,8 +19,16 @@ defmodule GestaoFinanceiraWeb.TagJSON do
     %{
       id: tag.id,
       nome: tag.nome,
-      inserted_at: tag.inserted_at,
-      updated_at: tag.updated_at
+      inserted_at: format_datetime(tag.inserted_at),
+      updated_at: format_datetime(tag.updated_at)
     }
   end
+
+  defp format_datetime(nil), do: nil
+  defp format_datetime(%DateTime{} = datetime) do
+    datetime
+    |> DateTime.truncate(:second)
+    |> Calendar.strftime("%d/%m/%Y %H:%M")
+  end
+
 end

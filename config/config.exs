@@ -67,3 +67,5 @@ import_config "#{config_env()}.exs"
 config :gestao_financeira, GestaoFinanceira.Guardian,
   issuer: "gestao_financeira",
   secret_key: "SECRETKEYPARAACESSO"
+
+config :elixir, :time_zone_database, Tzdata.TimeZoneDatabase

@@ -21,8 +21,15 @@ defmodule GestaoFinanceiraWeb.UserJSON do
       name: user.name,
       email: user.email,
       password_hash: user.password_hash,
-      inserted_at: user.inserted_at,
-      updated_at: user.updated_at
+      inserted_at: format_datetime(user.inserted_at),
+      updated_at: format_datetime(user.updated_at)
     }
+  end
+
+  defp format_datetime(nil), do: nil
+  defp format_datetime(%DateTime{} = datetime) do
+    datetime
+    |> DateTime.truncate(:second)
+    |> Calendar.strftime("%d/%m/%Y %H:%M")
   end
 end

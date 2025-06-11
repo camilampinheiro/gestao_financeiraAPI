@@ -21,11 +21,18 @@ defmodule GestaoFinanceiraWeb.TransactionJSON do
       descricao: transaction.descricao,
       valor: transaction.valor,
       tipo: transaction.tipo,
-      data: transaction.data,
+      data: format_datetime(transaction.data),
       user_id: transaction.user_id,
       tag_id: transaction.tag_id,
-      inserted_at: transaction.inserted_at,
-      updated_at: transaction.updated_at
+      inserted_at: format_datetime(transaction.inserted_at),
+      update_at: format_datetime(transaction.updated_at)
     }
+  end
+
+  defp format_datetime(nil), do: nil
+  defp format_datetime(%DateTime{} = datetime) do
+    datetime
+    |> DateTime.truncate(:second)
+    |> Calendar.strftime("%d/%m/%Y %H:%M")
   end
 end

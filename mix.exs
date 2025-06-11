@@ -63,7 +63,8 @@ defmodule GestaoFinanceira.MixProject do
       {:comeonin, "~> 5.3"},
       {:guardian, "~> 2.0"},
       {:decimal, "~> 2.0"},
-      {:cors_plug, "~> 3.0"}
+      {:cors_plug, "~> 3.0"},
+      {:tzdata, "~> 1.1"}
     ]
   end
 
