@@ -26,7 +26,10 @@ defmodule GestaoFinanceiraWeb.Endpoint do
     gzip: not code_reloading?,
     only: GestaoFinanceiraWeb.static_paths()
 
-  # plug CORSPlug, origin: ["http://localhost:3000"]
+  plug CORSPlug,
+    origin: ["http://localhost:5173"],
+    max_age: 86400,
+    headers: ["Authorization", "Content-Type", "Accept", "Origin", "User-Agent", "DNT", "Cache-Control", "X-Mx-ReqToken", "Keep-Alive", "X-Requested-With", "If-Modified-Since", "X-CSRF-Token"]
 
   # Code reloading can be explicitly enabled under the
   # :code_reloader configuration of your endpoint.

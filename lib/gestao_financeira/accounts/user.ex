@@ -19,6 +19,8 @@ defmodule GestaoFinanceira.Accounts.User do
     |> cast(attrs, [:name, :email, :password])
     |> validate_required([:name, :email, :password])
     |> validate_length(:password, min: 6)
+    |> validate_format(:email, ~r/^[^\s@]+@[^\s@]+\.[^\s@]+$/)
+    |> unique_constraint(:email)
     |> put_password_hash()
   end
 

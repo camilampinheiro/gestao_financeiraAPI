@@ -7,6 +7,11 @@ defmodule GestaoFinanceiraWeb.UserController do
 
   action_fallback GestaoFinanceiraWeb.FallbackController
 
+  def me(conn, _params) do
+    user = Guardian.Plug.current_resource(conn)
+    render(conn, :show, user: user)
+  end
+
   def index(conn, _params) do
     users = Accounts.list_users()
     render(conn, :index, users: users)
