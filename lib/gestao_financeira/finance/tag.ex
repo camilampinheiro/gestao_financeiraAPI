@@ -3,13 +3,13 @@ defmodule GestaoFinanceira.Finance.Tag do
   import Ecto.Changeset
 
   @derive {Jason.Encoder,
-  only: [:id, :nome, :inserted_at, :updated_at]
+    only: [:id, :nome, :inserted_at, :updated_at]
   }
 
   schema "tags" do
     field :nome, :string
 
-    has_many :transactions, GestaoFinanceira.Finance.Transaction
+    many_to_many :transactions, GestaoFinanceira.Finance.Transaction, join_through: GestaoFinanceira.Finance.TransactionTag
 
     timestamps(type: :utc_datetime)
   end

@@ -29,6 +29,7 @@ defmodule GestaoFinanceiraWeb.UserJSON do
   defp format_datetime(nil), do: nil
   defp format_datetime(%DateTime{} = datetime) do
     datetime
+    |> DateTime.shift_zone!("America/Sao_Paulo")
     |> DateTime.truncate(:second)
     |> Calendar.strftime("%d/%m/%Y %H:%M")
   end

@@ -3,7 +3,7 @@ defmodule GestaoFinanceira.Repo.Migrations.AddTagIdToTransactions do
 
   def change do
     alter table(:transactions) do
-      add :tag_id, references(:tags, on_delete: :nilify_all)
+      remove :tag_id
     end
   end
 end

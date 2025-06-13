@@ -23,7 +23,10 @@ defmodule GestaoFinanceiraWeb.TransactionJSON do
       tipo: transaction.tipo,
       data: format_datetime(transaction.data),
       user_id: transaction.user_id,
-      tag_id: transaction.tag_id,
+      tags: Enum.map(transaction.tags, &%{
+        id: &1.id,
+        nome: &1.nome
+      }),
       inserted_at: format_datetime(transaction.inserted_at),
       update_at: format_datetime(transaction.updated_at)
     }
@@ -32,6 +35,7 @@ defmodule GestaoFinanceiraWeb.TransactionJSON do
   defp format_datetime(nil), do: nil
   defp format_datetime(%DateTime{} = datetime) do
     datetime
+    |> DateTime.shift_zone!("America/Sao_Paulo")
     |> DateTime.truncate(:second)
     |> Calendar.strftime("%d/%m/%Y %H:%M")
   end

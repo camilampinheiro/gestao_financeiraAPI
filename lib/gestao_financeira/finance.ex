@@ -5,7 +5,7 @@ defmodule GestaoFinanceira.Finance do
 
   import Ecto.Query, warn: false
   alias GestaoFinanceira.Repo
-  alias GestaoFinanceira.Finance.Transaction
+  alias GestaoFinanceira.Finance.{Transaction, Tag, TransactionTag}
 
   @doc """
   Lista todas as transações de um usuário específico, ordenadas por data de criação (mais recentes primeiro).
@@ -14,7 +14,8 @@ defmodule GestaoFinanceira.Finance do
     Repo.all(
       from t in Transaction,
         where: t.user_id == ^user_id,
-        order_by: [desc: t.inserted_at]
+        order_by: [desc: t.inserted_at],
+        preload: [:tags]
     )
   end
 
@@ -22,7 +23,7 @@ defmodule GestaoFinanceira.Finance do
   Retorna uma transação pelo ID.
   Levanta erro se não for encontrada.
   """
-  def get_transaction!(id), do: Repo.get!(Transaction, id)
+  def get_transaction!(id), do: Repo.get!(Transaction, id) |> Repo.preload(:tags)
 
   @doc """
   Cria uma nova transação.
@@ -31,6 +32,19 @@ defmodule GestaoFinanceira.Finance do
     %Transaction{}
     |> Transaction.changeset(attrs)
     |> Repo.insert()
+    |> case do
+      {:ok, transaction} ->
+        if tag_ids = attrs["tag_ids"] do
+          transaction
+          |> Repo.preload(:tags)
+          |> Ecto.Changeset.change()
+          |> Ecto.Changeset.put_assoc(:tags, Repo.all(from t in Tag, where: t.id in ^tag_ids))
+          |> Repo.update()
+        else
+          {:ok, transaction}
+        end
+      error -> error
+    end
   end
 
   @doc """
@@ -40,6 +54,19 @@ defmodule GestaoFinanceira.Finance do
     transaction
     |> Transaction.changeset(attrs)
     |> Repo.update()
+    |> case do
+      {:ok, transaction} ->
+        if tag_ids = attrs["tag_ids"] do
+          transaction
+          |> Repo.preload(:tags)
+          |> Ecto.Changeset.change()
+          |> Ecto.Changeset.put_assoc(:tags, Repo.all(from t in Tag, where: t.id in ^tag_ids))
+          |> Repo.update()
+        else
+          {:ok, transaction}
+        end
+      error -> error
+    end
   end
 
   @doc """
@@ -55,8 +82,6 @@ defmodule GestaoFinanceira.Finance do
   def change_transaction(%Transaction{} = transaction, attrs \\ %{}) do
     Transaction.changeset(transaction, attrs)
   end
-
-  alias GestaoFinanceira.Finance.Tag
 
   @doc """
   Returns the list of tags.

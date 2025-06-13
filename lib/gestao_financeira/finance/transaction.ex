@@ -3,7 +3,7 @@ defmodule GestaoFinanceira.Finance.Transaction do
   import Ecto.Changeset
 
   @derive {Jason.Encoder,
-    only: [:id, :descricao, :valor, :tipo, :data, :user_id, :inserted_at, :updated_at]
+    only: [:id, :descricao, :valor, :tipo, :data, :user_id, :inserted_at, :updated_at, :tags]
   }
 
   schema "transactions" do
@@ -13,7 +13,7 @@ defmodule GestaoFinanceira.Finance.Transaction do
     field :data, :utc_datetime
 
     belongs_to :user, GestaoFinanceira.Accounts.User
-    belongs_to :tag, GestaoFinanceira.Finance.Tag
+    many_to_many :tags, GestaoFinanceira.Finance.Tag, join_through: GestaoFinanceira.Finance.TransactionTag
 
     timestamps(type: :utc_datetime)
   end
@@ -21,8 +21,8 @@ defmodule GestaoFinanceira.Finance.Transaction do
   @doc false
   def changeset(transaction, attrs) do
     transaction
-    |> cast(attrs, [:descricao, :valor, :tipo, :data, :tag_id, :user_id]) 
-    |> validate_required([:descricao, :valor, :tipo])
+    |> cast(attrs, [:descricao, :valor, :tipo, :user_id])
+    |> validate_required([:descricao, :valor, :tipo, :user_id])
     |> put_change(:data, DateTime.utc_now() |> DateTime.truncate(:second))
   end
 end
